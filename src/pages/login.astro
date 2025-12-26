@@ -1,0 +1,88 @@
+---
+import '../globals.css';
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход - GIPNOZIO Academy</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body class="bg-light text-dark-accent antialiased">
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <img src="/logo-gipnozio.jpg" alt="GIPNOZIO" class="h-10 w-10 rounded-full" />
+                <span class="text-xl font-serif font-bold text-gold">GIPNOZIO</span>
+            </div>
+            <div class="hidden md:flex gap-8">
+                <a href="/" class="text-dark hover:text-gold transition font-medium">Главная</a>
+                <a href="/clients" class="text-dark hover:text-gold transition font-medium">Для Клиентов</a>
+                <a href="/blog" class="text-dark hover:text-gold transition font-medium">Блог</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="min-h-screen flex items-center justify-center py-12 px-4">
+        <div class="w-full max-w-md">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h1 class="text-3xl font-serif font-bold text-center mb-8">Вход в кабинет</h1>
+                
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-dark mb-2">Email</label>
+                        <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gold" placeholder="your@email.com" />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-dark mb-2">Пароль</label>
+                        <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gold" placeholder="••••••••" />
+                    </div>
+                    
+                    <button type="submit" class="w-full px-4 py-2 bg-gold text-dark font-semibold rounded-lg hover:bg-dark hover:text-gold transition">
+                        Войти
+                    </button>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">Нет аккаунта? <a href="#" class="text-gold hover:text-dark transition font-semibold">Зарегистрироваться</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-12 border-t border-gold/20">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-gold font-serif font-bold mb-4 text-lg">GIPNOZIO</h3>
+                    <p class="text-gray-400">Eurasian Academy of Hypnosis</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Навигация</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/" class="hover:text-gold transition">Главная</a></li>
+                        <li><a href="/blog" class="hover:text-gold transition">Блог</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Для Клиентов</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/clients" class="hover:text-gold transition">Услуги</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Контакты</h4>
+                    <p class="text-gray-400">Roman Tretiakov</p>
+                    <p class="text-gray-400 text-sm">Hypnotherapy Specialist</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 GIPNOZIO Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

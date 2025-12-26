@@ -1,0 +1,131 @@
+---
+import '../globals.css';
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блог о психологии и гипнотерапии - GIPNOZIO</title>
+    <meta name="description" content="Статьи о работе с подсознанием, психосоматике, избавлении от страхов и личностном росте. Экспертные материалы от Романа Третьякова.">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body class="bg-light text-dark-accent antialiased">
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <img src="/logo-gipnozio.jpg" alt="GIPNOZIO" class="h-10 w-10 rounded-full" />
+                <span class="text-xl font-serif font-bold text-gold">GIPNOZIO</span>
+            </div>
+            <div class="hidden md:flex gap-8">
+                <a href="/" class="text-dark hover:text-gold transition font-medium">Главная</a>
+                <a href="/clients" class="text-dark hover:text-gold transition font-medium">Для Клиентов</a>
+                <a href="/blog" class="text-dark hover:text-gold transition font-medium">Блог</a>
+            </div>
+            <a href="/login" class="hidden md:block px-6 py-2 bg-gold text-dark font-semibold rounded-lg hover:bg-dark hover:text-gold transition">
+                ВХОД
+            </a>
+        </div>
+    </nav>
+
+    <section class="bg-dark text-white py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold mb-4">Блог</h1>
+            <p class="text-xl text-gold">Статьи о гипнотерапии и личностном развитии</p>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <article class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
+                    <div class="p-6">
+                        <h3 class="text-xl font-serif font-bold mb-2">
+                            <a href="#" class="text-dark hover:text-gold transition">
+                                Основы гипноза
+                            </a>
+                        </h3>
+                        <p class="text-gray-600 mb-4">Узнайте, что такое гипноз и как он работает</p>
+                        <div class="flex justify-between items-center text-sm text-gray-500">
+                            <span>Roman Tretiakov</span>
+                            <span>15 января 2024</span>
+                        </div>
+                        <a href="#" class="inline-block mt-4 text-gold hover:text-dark transition font-semibold">
+                            Читать далее →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
+                    <div class="p-6">
+                        <h3 class="text-xl font-serif font-bold mb-2">
+                            <a href="#" class="text-dark hover:text-gold transition">
+                                Управление стрессом через гипнотерапию
+                            </a>
+                        </h3>
+                        <p class="text-gray-600 mb-4">Эффективные техники для снятия стресса</p>
+                        <div class="flex justify-between items-center text-sm text-gray-500">
+                            <span>Roman Tretiakov</span>
+                            <span>10 января 2024</span>
+                        </div>
+                        <a href="#" class="inline-block mt-4 text-gold hover:text-dark transition font-semibold">
+                            Читать далее →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
+                    <div class="p-6">
+                        <h3 class="text-xl font-serif font-bold mb-2">
+                            <a href="#" class="text-dark hover:text-gold transition">
+                                Улучшение качества сна
+                            </a>
+                        </h3>
+                        <p class="text-gray-600 mb-4">Как гипноз помогает при бессоннице</p>
+                        <div class="flex justify-between items-center text-sm text-gray-500">
+                            <span>Roman Tretiakov</span>
+                            <span>5 января 2024</span>
+                        </div>
+                        <a href="#" class="inline-block mt-4 text-gold hover:text-dark transition font-semibold">
+                            Читать далее →
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-12 border-t border-gold/20">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-gold font-serif font-bold mb-4 text-lg">GIPNOZIO</h3>
+                    <p class="text-gray-400">Eurasian Academy of Hypnosis</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Навигация</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/" class="hover:text-gold transition">Главная</a></li>
+                        <li><a href="/blog" class="hover:text-gold transition">Блог</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Для Клиентов</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/clients" class="hover:text-gold transition">Услуги</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Контакты</h4>
+                    <p class="text-gray-400">Roman Tretiakov</p>
+                    <p class="text-gray-400 text-sm">Hypnotherapy Specialist</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 GIPNOZIO Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

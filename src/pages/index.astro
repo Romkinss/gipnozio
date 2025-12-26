@@ -1,0 +1,68 @@
+---
+import Hero from '../components/Hero';
+import AcademyPulse from '../components/AcademyPulse';
+import Resonance from '../components/Resonance';
+import Problem from '../components/Problem';
+import Solution from '../components/Solution';
+import DigitalManifesto from '../components/DigitalManifesto';
+import GlobalCareer from '../components/GlobalCareer';
+import Stats from '../components/Stats';
+import ForWhom from '../components/ForWhom';
+import Testimonials from '../components/Testimonials';
+import Program from '../components/Program';
+import Scarcity from '../components/Scarcity';
+import Guarantee from '../components/Guarantee';
+import CallToAction from '../components/CallToAction';
+import Warning from '../components/Warning';
+import Features from '../components/Features';
+import '../globals.css';
+
+const courseSchema = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Профессия Онлайн Гипнотерапевт",
+  "description": "Фундаментальная программа обучения онлайн гипнотерапии и коучингу. Помогайте людям дистанционно и создавайте глобальный бизнес.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Eurasian Academy of Hypnosis",
+    "sameAs": "https://gipnozio.ru"
+  }
+};
+---
+
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eurasian Academy of Hypnosis - Обучение ОНЛАЙН гипнотерапии</title>
+    <meta name="description" content="Станьте онлайн гипнотерапевтом. Профессиональное обучение работе с подсознанием через интернет. Свобода перемещения, высокий доход, мировое признание.">
+    <meta name="keywords" content="гипнотерапия, обучение, онлайн, academy, гипноз, курс">
+    <meta property="og:title" content="Eurasian Academy of Hypnosis">
+    <meta property="og:description" content="Профессиональное онлайн обучение гипнотерапии и коучингу. Международная сертификация.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gipnozio.ru">
+    <meta name="theme-color" content="#1A1A1A">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <script type="application/ld+json" set:html={JSON.stringify(courseSchema)}></script>
+</head>
+<body class="bg-light text-dark-accent antialiased">
+    <Hero client:load />
+    <AcademyPulse client:load />
+    <Resonance client:load />
+    <Problem client:load />
+    <Solution client:load />
+    <DigitalManifesto client:load />
+    <GlobalCareer client:load />
+    <Stats client:load />
+    <ForWhom client:load />
+    <Features client:load />
+    <Testimonials client:load />
+    <Program client:load />
+    <Scarcity client:load />
+    <Guarantee client:load />
+    <CallToAction client:load />
+    <Warning client:load />
+</body>
+</html>
