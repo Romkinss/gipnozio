@@ -1,22 +1,55 @@
-import type { Config } from 'tailwindcss';
+import type { Config } from 'tailwindcss'
 
 export default {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
+  darkMode: 'class',
+  content: [
+    "./index.html",
+    "./index.tsx",
+    "./src/**/*.{js,ts,jsx,tsx,astro}",
+    "./components/**/*.{js,ts,jsx,tsx,astro}",
+    "./pages/**/*.{js,ts,jsx,tsx,astro}",
+  ],
   theme: {
     extend: {
       colors: {
-        gold: '#D4AF37',
-        'gold-light': '#F4E5B0',
-        'gold-dark': '#B8941F',
-        dark: '#1A1A1A',
-        'dark-accent': '#2C2C2C',
-        light: '#FAFAF8',
+        gold: {
+          DEFAULT: '#D4AF37',
+          light: '#F4E5B0',
+          dark: '#B8941F',
+          dim: 'rgba(212, 175, 55, 0.1)',
+        },
+        dark: {
+          DEFAULT: '#1A1A1A',
+          accent: '#2C2C2C',
+        },
+        light: {
+          DEFAULT: '#FAFAF8',
+          secondary: '#FFFFFF',
+        }
       },
       fontFamily: {
-        serif: ['PT Serif', 'Georgia', 'serif'],
-        sans: ['PT Sans', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['PT Sans', 'Inter', 'sans-serif'],
+        serif: ['PT Serif', 'serif'],
       },
-    },
+      boxShadow: {
+        'gold': '0 4px 20px -2px rgba(212, 175, 55, 0.25)',
+        'gold-hover': '0 10px 25px -5px rgba(212, 175, 55, 0.4)',
+      },
+      animation: {
+        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      keyframes: {
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        pulse: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '.5' },
+        }
+      }
+    }
   },
   plugins: [],
-} satisfies Config;
+} satisfies Config

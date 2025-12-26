@@ -6,40 +6,29 @@ export default defineConfig({
   integrations: [react(), tailwind()],
   output: 'static',
   site: 'https://gipnozio.ru',
+  trailingSlash: 'never',
   vite: {
     ssr: {
       external: ['lucide-react']
+    },
+    build: {
+      minify: 'terser',
     }
   },
-  // Content Collections configuration
-  content: {
-    collections: {
-      blog: {
-        schema: ({ image }) => ({
-          type: 'content',
-          fields: {
-            title: { type: 'string' },
-            description: { type: 'string' },
-            publishedAt: { type: 'date' },
-            category: { type: 'string', required: false },
-            tags: { type: 'array', required: false },
-            featuredImage: { type: 'image', required: false },
-          }
-        })
+  // Optimization settings
+  build: {
+    format: 'directory',
+    inlineStylesheets: 'auto',
+  },
+  // Image optimization
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+    },
+    remotePatterns: [
+      {
+        protocol: 'https',
       },
-      lessons: {
-        schema: ({ image }) => ({
-          type: 'content',
-          fields: {
-            title: { type: 'string' },
-            description: { type: 'string' },
-            duration: { type: 'string' },
-            level: { type: 'string', required: false },
-            order: { type: 'number' },
-            module: { type: 'string', required: false },
-          }
-        })
-      }
-    }
-  }
+    ],
+  },
 });
