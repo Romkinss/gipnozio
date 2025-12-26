@@ -1,0 +1,56 @@
+---
+// SEO.astro - Компонент для SEO оптимизации
+import type { SEOData } from '../types/index';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  url?: string;
+  type?: string;
+  seo?: SEOData;
+  schema?: any;
+}
+
+const {
+  title,
+  description,
+  image,
+  url = Astro.url.href,
+  type = 'website',
+  seo,
+  schema,
+} = Astro.props;
+
+const finalTitle = seo?.title || title;
+const finalDescription = seo?.description || description;
+const finalImage = seo?.ogImage || image;
+const keywords = seo?.keywords?.join(', ') || '';
+---
+
+<!-- Meta Tags -->
+<meta name="title" content={finalTitle} />
+<meta name="description" content={finalDescription} />
+{keywords && <meta name="keywords" content={keywords} />}
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={url} />
+<meta property="og:title" content={finalTitle} />
+<meta property="og:description" content={finalDescription} />
+{finalImage && <meta property="og:image" content={finalImage} />}
+
+<!-- Twitter Card -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={url} />
+<meta property="twitter:title" content={finalTitle} />
+<meta property="twitter:description" content={finalDescription} />
+{finalImage && <meta property="twitter:image" content={finalImage} />}
+
+<!-- Canonical -->
+{seo?.canonical && <link rel="canonical" href={seo.canonical} />}
+
+<!-- Schema.org -->
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}
