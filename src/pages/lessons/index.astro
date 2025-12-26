@@ -1,0 +1,184 @@
+---
+import { getCollection } from 'astro:content';
+import '../../globals.css';
+
+// Получаем все уроки
+const allLessons = await getCollection('lessons');
+
+// Сортируем по порядку
+const sortedLessons = allLessons.sort((a, b) => a.data.order - b.data.order);
+
+// Группируем по модулям
+const lessonsByModule = sortedLessons.reduce((acc, lesson) => {
+  const module = lesson.data.module || 'Без модуля';
+  if (!acc[module]) {
+    acc[module] = [];
+  }
+  acc[module].push(lesson);
+  return acc;
+}, {} as Record<string, any[]>);
+
+const modules = Object.keys(lessonsByModule);
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Уроки гипнотерапии - GIPNOZIO Academy</title>
+    <meta name="description" content="Полный курс обучения гипнотерапии. Изучите основы, техники и практические навыки работы с подсознанием.">
+    <meta name="keywords" content="гипнотерапия, обучение, уроки, курс, гипноз">
+    <meta property="og:title" content="Уроки GIPNOZIO Academy">
+    <meta property="og:description" content="Полный курс обучения гипнотерапии">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gipnozio.ru/lessons">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="canonical" href="https://gipnozio.ru/lessons">
+</head>
+<body class="bg-light text-dark-accent antialiased">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <img src="/logo-gipnozio.jpg" alt="GIPNOZIO" class="h-10 w-10 rounded-full" />
+                <span class="text-xl font-serif font-bold text-gold">GIPNOZIO</span>
+            </div>
+            <div class="hidden md:flex gap-8">
+                <a href="/" class="text-dark hover:text-gold transition font-medium">Главная</a>
+                <a href="/clients" class="text-dark hover:text-gold transition font-medium">Для Клиентов</a>
+                <a href="/blog" class="text-dark hover:text-gold transition font-medium">Блог</a>
+            </div>
+            <a href="/login" class="hidden md:block px-6 py-2 bg-gold text-dark font-semibold rounded-lg hover:bg-dark hover:text-gold transition">
+                ВХОД
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-dark text-white py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold mb-4">Уроки гипнотерапии</h1>
+            <p class="text-xl text-gold">Полный курс обучения от основ до продвинутых техник</p>
+        </div>
+    </section>
+
+    <!-- Lessons Section -->
+    <section class="py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            {modules.map((module) => (
+                <div class="mb-16">
+                    <h2 class="text-3xl font-serif font-bold text-dark mb-8">{module}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {lessonsByModule[module].map((lesson) => {
+                            const levelColors: Record<string, string> = {
+                                'beginner': 'bg-green-100 text-green-800',
+                                'intermediate': 'bg-yellow-100 text-yellow-800',
+                                'advanced': 'bg-red-100 text-red-800',
+                            };
+                            
+                            const levelLabels: Record<string, string> = {
+                                'beginner': 'Начинающий',
+                                'intermediate': 'Средний уровень',
+                                'advanced': 'Продвинутый',
+                            };
+
+                            return (
+                                <a href={`/lessons/${lesson.slug}`} class="group">
+                                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition h-full flex flex-col">
+                                        <div class="bg-gradient-to-br from-gold/20 to-gold/5 p-6 flex-1">
+                                            <div class="flex items-start justify-between mb-4">
+                                                <div class="flex-1">
+                                                    <h3 class="text-xl font-serif font-bold text-dark group-hover:text-gold transition mb-2">
+                                                        {lesson.data.title}
+                                                    </h3>
+                                                    <p class="text-gray-600 text-sm mb-4">{lesson.data.description}</p>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="flex flex-wrap gap-2 mb-4">
+                                                {lesson.data.level && (
+                                                    <span class={`inline-block px-2 py-1 rounded text-xs font-medium ${levelColors[lesson.data.level] || 'bg-gray-100 text-gray-800'}`}>
+                                                        {levelLabels[lesson.data.level] || 'Все уровни'}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <div class="flex items-center gap-4 text-sm text-gray-600">
+                                                <span class="flex items-center gap-1">
+                                                    ⏱️ {lesson.data.duration}
+                                                </span>
+                                                <span class="flex items-center gap-1">
+                                                    📚 Урок {lesson.data.order}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="px-6 py-4 bg-white border-t border-gray-200 group-hover:bg-gold/5 transition">
+                                            <span class="text-gold font-semibold group-hover:text-dark transition">
+                                                Начать урок →
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            );
+                        })}
+                    </div>
+                </div>
+            ))}
+
+            {sortedLessons.length === 0 && (
+                <div class="text-center py-12">
+                    <p class="text-gray-600 text-lg">Уроки еще не опубликованы. Следите за обновлениями!</p>
+                </div>
+            )}
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-dark text-white py-16 md:py-24">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">Готовы начать обучение?</h2>
+            <p class="text-xl text-gold mb-8">Начните с первого урока и развивайте свои навыки гипнотерапии</p>
+            {sortedLessons.length > 0 && (
+                <a href={`/lessons/${sortedLessons[0].slug}`} class="inline-block px-8 py-4 bg-gold text-dark font-semibold rounded-lg hover:bg-white transition">
+                    Начать первый урок
+                </a>
+            )}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12 border-t border-gold/20">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-gold font-serif font-bold mb-4 text-lg">GIPNOZIO</h3>
+                    <p class="text-gray-400">Eurasian Academy of Hypnosis</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Навигация</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/" class="hover:text-gold transition">Главная</a></li>
+                        <li><a href="/lessons" class="hover:text-gold transition">Уроки</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Для Клиентов</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/clients" class="hover:text-gold transition">Услуги</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Контакты</h4>
+                    <p class="text-gray-400">Roman Tretiakov</p>
+                    <p class="text-gray-400 text-sm">Hypnotherapy Specialist</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 GIPNOZIO Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

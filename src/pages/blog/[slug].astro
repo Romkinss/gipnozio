@@ -1,0 +1,164 @@
+---
+import { getCollection } from 'astro:content';
+import BlogPostView from '../../components/BlogPostView';
+import BreadcrumbsNav from '../../components/BreadcrumbsNav';
+import '../../globals.css';
+
+// Генерируем статические пути для всех статей
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+  
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: any;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+// Получаем все статьи для навигации
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => 
+  new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
+);
+
+// Находим текущую статью и соседние
+const currentIndex = sortedPosts.findIndex(p => p.slug === post.slug);
+const previousPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+
+// Подготавливаем HTML контента
+const contentHtml = await Content.render();
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{post.data.seo?.title || post.data.title} - GIPNOZIO</title>
+    <meta name="description" content={post.data.seo?.description || post.data.description}>
+    {post.data.seo?.keywords && (
+        <meta name="keywords" content={post.data.seo.keywords.join(', ')}>
+    )}
+    <meta property="og:title" content={post.data.title}>
+    <meta property="og:description" content={post.data.description}>
+    {post.data.featuredImage && (
+        <meta property="og:image" content={post.data.featuredImage}>
+    )}
+    <meta property="og:type" content="article">
+    <meta property="og:url" content={`https://gipnozio.ru/blog/${post.slug}`}>
+    <meta property="article:published_time" content={post.data.publishedAt.toISOString()}>
+    {post.data.category && (
+        <meta property="article:section" content={post.data.category}>
+    )}
+    {post.data.tags?.map((tag: string) => (
+        <meta property="article:tag" content={tag} key={tag}>
+    ))}
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="canonical" href={`https://gipnozio.ru/blog/${post.slug}`}>
+    
+    <!-- Schema.org markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{post.data.title}",
+        "description": "{post.data.description}",
+        "image": "{post.data.featuredImage || '/default-blog-image.jpg'}",
+        "datePublished": "{post.data.publishedAt.toISOString()}",
+        "dateModified": "{post.data.updatedAt?.toISOString() || post.data.publishedAt.toISOString()}",
+        "author": {
+            "@type": "Person",
+            "name": "{post.data.author}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "GIPNOZIO",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://gipnozio.ru/logo.jpg"
+            }
+        }
+    }
+    </script>
+</head>
+<body class="bg-light text-dark-accent antialiased">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <img src="/logo-gipnozio.jpg" alt="GIPNOZIO" class="h-10 w-10 rounded-full" />
+                <span class="text-xl font-serif font-bold text-gold">GIPNOZIO</span>
+            </div>
+            <div class="hidden md:flex gap-8">
+                <a href="/" class="text-dark hover:text-gold transition font-medium">Главная</a>
+                <a href="/clients" class="text-dark hover:text-gold transition font-medium">Для Клиентов</a>
+                <a href="/blog" class="text-dark hover:text-gold transition font-medium">Блог</a>
+            </div>
+            <a href="/login" class="hidden md:block px-6 py-2 bg-gold text-dark font-semibold rounded-lg hover:bg-dark hover:text-gold transition">
+                ВХОД
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="container mx-auto px-4 py-12">
+        <BreadcrumbsNav client:load items={[
+            { label: 'Блог', href: '/blog' },
+            { label: post.data.title, href: `/blog/${post.slug}` }
+        ]} />
+        
+        <BlogPostView 
+            client:load
+            title={post.data.title}
+            author={post.data.author}
+            publishedAt={post.data.publishedAt}
+            category={post.data.category}
+            tags={post.data.tags}
+            readingTime={post.data.readingTime}
+            content={contentHtml.html}
+            previousPost={previousPost ? { slug: previousPost.slug, title: previousPost.data.title } : undefined}
+            nextPost={nextPost ? { slug: nextPost.slug, title: nextPost.data.title } : undefined}
+        />
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12 border-t border-gold/20 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-gold font-serif font-bold mb-4 text-lg">GIPNOZIO</h3>
+                    <p class="text-gray-400">Eurasian Academy of Hypnosis</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Навигация</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/" class="hover:text-gold transition">Главная</a></li>
+                        <li><a href="/blog" class="hover:text-gold transition">Блог</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Для Клиентов</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/clients" class="hover:text-gold transition">Услуги</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-gold">Контакты</h4>
+                    <p class="text-gray-400">Roman Tretiakov</p>
+                    <p class="text-gray-400 text-sm">Hypnotherapy Specialist</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 GIPNOZIO Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

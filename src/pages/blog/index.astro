@@ -1,5 +1,17 @@
 ---
-import '../globals.css';
+import { getCollection } from 'astro:content';
+import '../../globals.css';
+
+// Получаем все статьи блога
+const allPosts = await getCollection('blog');
+
+// Сортируем по дате публикации (новые первыми)
+const sortedPosts = allPosts.sort((a, b) => 
+  new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
+);
+
+// Получаем уникальные категории
+const categories = Array.from(new Set(sortedPosts.map(post => post.data.category).filter(Boolean)));
 ---
 
 <!DOCTYPE html>
@@ -9,9 +21,16 @@ import '../globals.css';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Блог о психологии и гипнотерапии - GIPNOZIO</title>
     <meta name="description" content="Статьи о работе с подсознанием, психосоматике, избавлении от страхов и личностном росте. Экспертные материалы от Романа Третьякова.">
+    <meta name="keywords" content="гипноз, гипнотерапия, психология, блог, статьи">
+    <meta property="og:title" content="Блог GIPNOZIO">
+    <meta property="og:description" content="Статьи о гипнотерапии и личностном развитии">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gipnozio.ru/blog">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="canonical" href="https://gipnozio.ru/blog">
 </head>
 <body class="bg-light text-dark-accent antialiased">
+    <!-- Navigation -->
     <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
@@ -29,6 +48,7 @@ import '../globals.css';
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section class="bg-dark text-white py-16 md:py-24">
         <div class="container mx-auto px-4">
             <h1 class="text-4xl md:text-5xl font-serif font-bold mb-4">Блог</h1>
@@ -36,66 +56,99 @@ import '../globals.css';
         </div>
     </section>
 
+    <!-- Blog Posts Section -->
     <section class="py-16 md:py-24">
         <div class="container mx-auto px-4">
+            <!-- Categories Filter -->
+            {categories.length > 0 && (
+                <div class="mb-12">
+                    <h2 class="text-lg font-semibold text-dark mb-4">Категории:</h2>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="/blog" class="px-4 py-2 bg-dark text-white rounded-full hover:bg-gold hover:text-dark transition font-medium">
+                            Все статьи
+                        </a>
+                        {categories.map((category) => (
+                            <a 
+                                href={`/blog?category=${encodeURIComponent(category)}`}
+                                class="px-4 py-2 bg-gray-200 text-dark rounded-full hover:bg-gold hover:text-dark transition font-medium"
+                            >
+                                {category}
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            <!-- Posts Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <article class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
-                    <div class="p-6">
-                        <h3 class="text-xl font-serif font-bold mb-2">
-                            <a href="#" class="text-dark hover:text-gold transition">
-                                Основы гипноза
-                            </a>
-                        </h3>
-                        <p class="text-gray-600 mb-4">Узнайте, что такое гипноз и как он работает</p>
-                        <div class="flex justify-between items-center text-sm text-gray-500">
-                            <span>Roman Tretiakov</span>
-                            <span>15 января 2024</span>
-                        </div>
-                        <a href="#" class="inline-block mt-4 text-gold hover:text-dark transition font-semibold">
-                            Читать далее →
-                        </a>
-                    </div>
-                </article>
+                {sortedPosts.map((post) => {
+                    const formattedDate = new Date(post.data.publishedAt).toLocaleDateString('ru-RU', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                    });
 
-                <article class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
-                    <div class="p-6">
-                        <h3 class="text-xl font-serif font-bold mb-2">
-                            <a href="#" class="text-dark hover:text-gold transition">
-                                Управление стрессом через гипнотерапию
-                            </a>
-                        </h3>
-                        <p class="text-gray-600 mb-4">Эффективные техники для снятия стресса</p>
-                        <div class="flex justify-between items-center text-sm text-gray-500">
-                            <span>Roman Tretiakov</span>
-                            <span>10 января 2024</span>
-                        </div>
-                        <a href="#" class="inline-block mt-4 text-gold hover:text-dark transition font-semibold">
-                            Читать далее →
-                        </a>
-                    </div>
-                </article>
-
-                <article class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
-                    <div class="p-6">
-                        <h3 class="text-xl font-serif font-bold mb-2">
-                            <a href="#" class="text-dark hover:text-gold transition">
-                                Улучшение качества сна
-                            </a>
-                        </h3>
-                        <p class="text-gray-600 mb-4">Как гипноз помогает при бессоннице</p>
-                        <div class="flex justify-between items-center text-sm text-gray-500">
-                            <span>Roman Tretiakov</span>
-                            <span>5 января 2024</span>
-                        </div>
-                        <a href="#" class="inline-block mt-4 text-gold hover:text-dark transition font-semibold">
-                            Читать далее →
-                        </a>
-                    </div>
-                </article>
+                    return (
+                        <article class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
+                            {post.data.featuredImage && (
+                                <div class="h-48 bg-gray-300 overflow-hidden">
+                                    <img 
+                                        src={post.data.featuredImage} 
+                                        alt={post.data.featuredImageAlt || post.data.title}
+                                        class="w-full h-full object-cover hover:scale-105 transition"
+                                    />
+                                </div>
+                            )}
+                            <div class="p-6">
+                                {post.data.category && (
+                                    <div class="mb-3">
+                                        <span class="inline-block px-2 py-1 bg-gold/10 text-gold rounded text-xs font-medium">
+                                            {post.data.category}
+                                        </span>
+                                    </div>
+                                )}
+                                <h3 class="text-xl font-serif font-bold mb-2">
+                                    <a href={`/blog/${post.slug}`} class="text-dark hover:text-gold transition">
+                                        {post.data.title}
+                                    </a>
+                                </h3>
+                                <p class="text-gray-600 mb-4">{post.data.excerpt || post.data.description}</p>
+                                <div class="flex justify-between items-center text-sm text-gray-500 mb-4">
+                                    <span>{post.data.author}</span>
+                                    <span>{formattedDate}</span>
+                                </div>
+                                {post.data.readingTime && (
+                                    <div class="text-sm text-gray-500 mb-4">
+                                        ⏱️ {post.data.readingTime} мин. чтения
+                                    </div>
+                                )}
+                                {post.data.tags && post.data.tags.length > 0 && (
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        {post.data.tags.slice(0, 3).map((tag) => (
+                                            <span key={tag} class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
+                                                #{tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+                                <a href={`/blog/${post.slug}`} class="inline-block text-gold hover:text-dark transition font-semibold">
+                                    Читать далее →
+                                </a>
+                            </div>
+                        </article>
+                    );
+                })}
             </div>
+
+            {sortedPosts.length === 0 && (
+                <div class="text-center py-12">
+                    <p class="text-gray-600 text-lg">Статьи еще не опубликованы. Следите за обновлениями!</p>
+                </div>
+            )}
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="bg-dark text-white py-12 border-t border-gold/20">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">

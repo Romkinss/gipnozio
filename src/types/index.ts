@@ -12,6 +12,58 @@ export interface Article {
   readingTime?: number;
 }
 
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  excerpt?: string;
+  author: string;
+  publishedAt: Date;
+  updatedAt?: Date;
+  category?: string;
+  tags?: string[];
+  featuredImage?: string;
+  featuredImageAlt?: string;
+  readingTime?: number;
+  content: string;
+  seo?: {
+    title?: string;
+    description?: string;
+    keywords?: string[];
+  };
+}
+
+export interface LessonContent {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  duration: string;
+  level?: 'beginner' | 'intermediate' | 'advanced';
+  order: number;
+  module?: string;
+  objectives?: string[];
+  prerequisites?: string[];
+  resources?: Array<{
+    title: string;
+    url: string;
+    type?: 'video' | 'pdf' | 'link' | 'exercise';
+  }>;
+  videoUrl?: string;
+  videoTranscript?: string;
+  quiz?: {
+    enabled?: boolean;
+    questions?: number;
+  };
+  content: string;
+  seo?: {
+    title?: string;
+    description?: string;
+    keywords?: string[];
+  };
+}
+
 export interface Category {
   id: string;
   name: string;
