@@ -217,7 +217,7 @@ const LearningDashboard: React.FC = () => {
                                                     const isCompleted = progress.includes(lesson.id);
                                                     return (
                                                         <div key={lesson.id} className={`p-4 pl-6 flex items-center gap-4 ${isLocked ? 'bg-gray-50 opacity-60' : 'hover:bg-blue-50/30 cursor-pointer'}`}
-                                                            onClick={() => !isLocked && window.location.href = `/learning/lesson/${lesson.slug}`}
+                                                            onClick={() => !isLocked && (window.location.href = `/learning/lesson/${lesson.slug}`)}
                                                         >
                                                             <div className="shrink-0">
                                                                 {isLocked ? <Lock className="text-gray-400" size={18} /> : isCompleted ? <CheckCircle className="text-green-500" size={18} /> : <PlayCircle className="text-blue-500" size={18} />}
