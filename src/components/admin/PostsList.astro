@@ -1,0 +1,279 @@
+---
+// PostsList Component
+// Таблица со списком всех блог-постов
+
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+
+// Сортируем по дате публикации (новые первыми)
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
+);
+---
+
+<div class="posts-container">
+  <div class="posts-header">
+    <h1 class="page-title">📝 Управление статьями</h1>
+    <a href="/admin/blog/new" class="btn-primary">➕ Новая статья</a>
+  </div>
+
+  {sortedPosts.length > 0 ? (
+    <div class="posts-table-wrapper">
+      <table class="posts-table">
+        <thead>
+          <tr>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Категория</th>
+            <th>Дата публикации</th>
+            <th>Статус</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedPosts.map((post) => (
+            <tr class="post-row">
+              <td class="post-title">
+                <strong>{post.data.title}</strong>
+                <p class="post-slug">/{post.slug}</p>
+              </td>
+              <td>{post.data.author}</td>
+              <td>
+                <span class="badge">{post.data.category}</span>
+              </td>
+              <td>
+                {new Date(post.data.publishedAt).toLocaleDateString('ru-RU', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </td>
+              <td>
+                <span class="status-badge status-published">Опубликовано</span>
+              </td>
+              <td class="actions-cell">
+                <a href={`/admin/blog/${post.slug}`} class="btn-action btn-edit" title="Редактировать">
+                  ✏️
+                </a>
+                <button class="btn-action btn-delete" title="Удалить" onclick="deletePost('{post.slug}')">
+                  🗑️
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  ) : (
+    <div class="empty-state">
+      <p>📭 Нет статей</p>
+      <a href="/admin/blog/new" class="btn-primary">Создать первую статью</a>
+    </div>
+  )}
+</div>
+
+<style>
+  .posts-container {
+    max-width: 1200px;
+  }
+
+  .posts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .btn-primary {
+    padding: 0.75rem 1.5rem;
+    background-color: #D4AF37;
+    color: #1a1a1a;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  }
+
+  .posts-table-wrapper {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .posts-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .posts-table thead {
+    background-color: #f9f9f9;
+    border-bottom: 2px solid #e0e0e0;
+  }
+
+  .posts-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #666;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .posts-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    color: #1a1a1a;
+  }
+
+  .post-row:hover {
+    background-color: #fafafa;
+  }
+
+  .post-title {
+    font-weight: 600;
+  }
+
+  .post-slug {
+    font-size: 0.875rem;
+    color: #999;
+    margin: 0.25rem 0 0 0;
+    font-weight: normal;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: #f0f0f0;
+    color: #666;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .status-published {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+
+  .status-draft {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+
+  .actions-cell {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn-action {
+    padding: 0.5rem;
+    background: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+  }
+
+  .btn-action:hover {
+    border-color: #D4AF37;
+    background-color: #fffbf0;
+  }
+
+  .btn-edit {
+    color: #3b82f6;
+  }
+
+  .btn-delete {
+    color: #ef4444;
+  }
+
+  .btn-delete:hover {
+    background-color: #fef2f2;
+  }
+
+  .empty-state {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.75rem;
+    padding: 3rem;
+    text-align: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .empty-state p {
+    font-size: 1.25rem;
+    color: #999;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .posts-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .posts-table {
+      font-size: 0.875rem;
+    }
+
+    .posts-table th,
+    .posts-table td {
+      padding: 0.75rem;
+    }
+
+    .post-title {
+      max-width: 150px;
+      word-break: break-word;
+    }
+
+    .actions-cell {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  function deletePost(slug: string) {
+    if (confirm(`Вы уверены, что хотите удалить статью "${slug}"?`)) {
+      // TODO: Реализовать удаление
+      alert('Функция удаления будет реализована в следующей версии');
+    }
+  }
+</script>

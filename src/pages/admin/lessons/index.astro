@@ -1,0 +1,269 @@
+---
+// Admin Lessons Management Page
+// Страница управления уроками
+
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { getCollection } from 'astro:content';
+
+const lessons = await getCollection('lessons');
+
+// Сортируем по дате создания (новые первыми)
+const sortedLessons = lessons.sort((a, b) => 
+  new Date(b.data.createdAt || 0).getTime() - new Date(a.data.createdAt || 0).getTime()
+);
+---
+
+<AdminLayout title="Управление уроками">
+  <div class="lessons-container">
+    <div class="lessons-header">
+      <h1 class="page-title">📚 Управление уроками</h1>
+      <a href="/admin/lessons/new" class="btn-primary">➕ Новый урок</a>
+    </div>
+
+    {sortedLessons.length > 0 ? (
+      <div class="lessons-table-wrapper">
+        <table class="lessons-table">
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Инструктор</th>
+              <th>Уровень</th>
+              <th>Категория</th>
+              <th>Длительность</th>
+              <th>Действия</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedLessons.map((lesson) => (
+              <tr class="lesson-row">
+                <td class="lesson-title">
+                  <strong>{lesson.data.title}</strong>
+                  <p class="lesson-slug">/{lesson.slug}</p>
+                </td>
+                <td>{lesson.data.instructor}</td>
+                <td>
+                  <span class="level-badge" data-level={lesson.data.level}>
+                    {lesson.data.level === 'beginner' && '🟢 Начинающий'}
+                    {lesson.data.level === 'intermediate' && '🟡 Средний'}
+                    {lesson.data.level === 'advanced' && '🔴 Продвинутый'}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge">{lesson.data.category}</span>
+                </td>
+                <td>{lesson.data.duration} мин</td>
+                <td class="actions-cell">
+                  <a href={`/admin/lessons/${lesson.slug}`} class="btn-action btn-edit" title="Редактировать">
+                    ✏️
+                  </a>
+                  <button class="btn-action btn-delete" title="Удалить" onclick="deleteLesson('{lesson.slug}')">
+                    🗑️
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <div class="empty-state">
+        <p>📭 Нет уроков</p>
+        <a href="/admin/lessons/new" class="btn-primary">Создать первый урок</a>
+      </div>
+    )}
+  </div>
+</AdminLayout>
+
+<style>
+  .lessons-container {
+    max-width: 1200px;
+  }
+
+  .lessons-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .btn-primary {
+    padding: 0.75rem 1.5rem;
+    background-color: #D4AF37;
+    color: #1a1a1a;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  }
+
+  .lessons-table-wrapper {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .lessons-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .lessons-table thead {
+    background-color: #f9f9f9;
+    border-bottom: 2px solid #e0e0e0;
+  }
+
+  .lessons-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #666;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .lessons-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    color: #1a1a1a;
+  }
+
+  .lesson-row:hover {
+    background-color: #fafafa;
+  }
+
+  .lesson-title {
+    font-weight: 600;
+  }
+
+  .lesson-slug {
+    font-size: 0.875rem;
+    color: #999;
+    margin: 0.25rem 0 0 0;
+    font-weight: normal;
+  }
+
+  .level-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: #f0f0f0;
+    color: #666;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .actions-cell {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn-action {
+    padding: 0.5rem;
+    background: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+  }
+
+  .btn-action:hover {
+    border-color: #D4AF37;
+    background-color: #fffbf0;
+  }
+
+  .btn-edit {
+    color: #3b82f6;
+  }
+
+  .btn-delete {
+    color: #ef4444;
+  }
+
+  .btn-delete:hover {
+    background-color: #fef2f2;
+  }
+
+  .empty-state {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.75rem;
+    padding: 3rem;
+    text-align: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .empty-state p {
+    font-size: 1.25rem;
+    color: #999;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .lessons-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .lessons-table {
+      font-size: 0.875rem;
+    }
+
+    .lessons-table th,
+    .lessons-table td {
+      padding: 0.75rem;
+    }
+
+    .lesson-title {
+      max-width: 150px;
+      word-break: break-word;
+    }
+
+    .actions-cell {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  function deleteLesson(slug: string) {
+    if (confirm(`Вы уверены, что хотите удалить урок "${slug}"?`)) {
+      alert('Функция удаления будет реализована в следующей версии');
+    }
+  }
+</script>

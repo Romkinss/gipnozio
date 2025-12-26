@@ -1,0 +1,231 @@
+---
+// Admin Layout
+// Базовый layout для всех страниц админ-панели
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description || 'ГИПНОЗИО - Админ-панель'} />
+  <title>{title} | ГИПНОЗИО Админ</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    :root {
+      --color-primary: #D4AF37;
+      --color-dark: #1a1a1a;
+      --color-light: #f5f5f5;
+      --color-border: #e0e0e0;
+      --color-success: #10b981;
+      --color-error: #ef4444;
+      --color-warning: #f59e0b;
+      --color-info: #3b82f6;
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --spacing-2xl: 3rem;
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'PT Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--color-light);
+      color: var(--color-dark);
+      line-height: 1.6;
+    }
+
+    .admin-container {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      grid-template-rows: auto 1fr;
+      min-height: 100vh;
+      gap: var(--spacing-md);
+    }
+
+    .admin-header {
+      grid-column: 1 / -1;
+      background-color: white;
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--spacing-md) var(--spacing-lg);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .admin-sidebar {
+      grid-row: 2;
+      grid-column: 1;
+      background-color: white;
+      border-right: 1px solid var(--color-border);
+      padding: var(--spacing-lg) 0;
+      overflow-y: auto;
+      max-height: calc(100vh - 80px);
+    }
+
+    .admin-main {
+      grid-row: 2;
+      grid-column: 2;
+      padding: var(--spacing-lg);
+      overflow-y: auto;
+    }
+
+    .admin-header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--color-dark);
+    }
+
+    .admin-header-actions {
+      display: flex;
+      gap: var(--spacing-md);
+      align-items: center;
+    }
+
+    .admin-header-actions button {
+      padding: var(--spacing-sm) var(--spacing-md);
+      background-color: var(--color-primary);
+      color: var(--color-dark);
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .admin-header-actions button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .sidebar-nav {
+      list-style: none;
+    }
+
+    .sidebar-nav li {
+      margin: 0;
+    }
+
+    .sidebar-nav a {
+      display: block;
+      padding: var(--spacing-md) var(--spacing-lg);
+      color: var(--color-dark);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-nav a:hover {
+      background-color: var(--color-light);
+      border-left-color: var(--color-primary);
+      padding-left: calc(var(--spacing-lg) + 3px);
+    }
+
+    .sidebar-nav a.active {
+      background-color: var(--color-light);
+      border-left-color: var(--color-primary);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: var(--spacing-lg);
+      color: var(--color-dark);
+    }
+
+    .page-description {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    @media (max-width: 768px) {
+      .admin-container {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-sidebar {
+        grid-column: 1;
+        grid-row: 1;
+        display: none;
+      }
+
+      .admin-main {
+        grid-column: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <header class="admin-header">
+      <h1>ГИПНОЗИО Админ</h1>
+      <div class="admin-header-actions">
+        <button onclick="logout()">Выход</button>
+      </div>
+    </header>
+
+    <aside class="admin-sidebar">
+      <nav class="sidebar-nav">
+        <li><a href="/admin/">📊 Главная</a></li>
+        <li><a href="/admin/blog/">📝 Блог</a></li>
+        <li><a href="/admin/lessons/">📚 Уроки</a></li>
+        <li><a href="/admin/testimonials/">⭐ Отзывы</a></li>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <slot />
+    </main>
+  </div>
+
+  <script>
+    function logout() {
+      if (confirm('Вы уверены, что хотите выйти?')) {
+        // TODO: Реализовать выход
+        window.location.href = '/';
+      }
+    }
+
+    // Установка активного пункта меню
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll('.sidebar-nav a');
+      
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

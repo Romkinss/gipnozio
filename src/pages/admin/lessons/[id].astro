@@ -1,0 +1,422 @@
+---
+// Admin Lessons Edit Page
+// Страница редактирования урока
+
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { getCollection } from 'astro:content';
+
+const { id } = Astro.params;
+
+// Получаем все уроки
+const lessons = await getCollection('lessons');
+const lesson = lessons.find(l => l.slug === id);
+
+if (!lesson) {
+  return Astro.redirect('/admin/lessons/');
+}
+
+const { Content } = await lesson.render();
+---
+
+<AdminLayout title={`Редактировать: ${lesson.data.title}`}>
+  <div class="edit-lesson-container">
+    <div class="edit-header">
+      <h1 class="page-title">✏️ Редактировать урок</h1>
+      <a href="/admin/lessons/" class="btn-back">← Вернуться</a>
+    </div>
+    
+    <form class="lesson-form" id="editLessonForm">
+      <div class="form-group">
+        <label for="title">Название урока *</label>
+        <input 
+          type="text" 
+          id="title" 
+          name="title" 
+          value={lesson.data.title}
+          placeholder="Введите название урока"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="slug">URL (slug) *</label>
+        <input 
+          type="text" 
+          id="slug" 
+          name="slug" 
+          value={lesson.slug}
+          placeholder="url-slug"
+          disabled
+        />
+        <small>URL не может быть изменён</small>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="instructor">Инструктор *</label>
+          <input 
+            type="text" 
+            id="instructor" 
+            name="instructor" 
+            value={lesson.data.instructor}
+            placeholder="Имя инструктора"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="level">Уровень сложности *</label>
+          <select id="level" name="level" required>
+            <option value="beginner" selected={lesson.data.level === 'beginner'}>🟢 Начинающий</option>
+            <option value="intermediate" selected={lesson.data.level === 'intermediate'}>🟡 Средний</option>
+            <option value="advanced" selected={lesson.data.level === 'advanced'}>🔴 Продвинутый</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="category">Категория *</label>
+          <select id="category" name="category" required>
+            <option value="Гипноз" selected={lesson.data.category === 'Гипноз'}>Гипноз</option>
+            <option value="Психология" selected={lesson.data.category === 'Психология'}>Психология</option>
+            <option value="Здоровье" selected={lesson.data.category === 'Здоровье'}>Здоровье</option>
+            <option value="Развитие" selected={lesson.data.category === 'Развитие'}>Развитие</option>
+            <option value="Другое" selected={lesson.data.category === 'Другое'}>Другое</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="duration">Длительность (минут) *</label>
+          <input 
+            type="number" 
+            id="duration" 
+            name="duration" 
+            value={lesson.data.duration}
+            placeholder="30"
+            min="1"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Описание (для SEO) *</label>
+        <input 
+          type="text" 
+          id="description" 
+          name="description" 
+          value={lesson.data.description}
+          placeholder="Краткое описание урока"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="content">Содержание урока *</label>
+        <textarea 
+          id="content" 
+          name="content" 
+          placeholder="Полное содержание урока (поддерживается Markdown)"
+          rows="10"
+          required
+        >{lesson.body}</textarea>
+        <small>Поддерживается Markdown форматирование</small>
+      </div>
+
+      <div class="form-group">
+        <label for="videoUrl">URL видео</label>
+        <input 
+          type="url" 
+          id="videoUrl" 
+          name="videoUrl" 
+          value={lesson.data.videoUrl || ''}
+          placeholder="https://youtube.com/watch?v=..."
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="tags">Теги (через запятую)</label>
+        <input 
+          type="text" 
+          id="tags" 
+          name="tags" 
+          value={lesson.data.tags?.join(', ') || ''}
+          placeholder="тег1, тег2, тег3"
+        />
+      </div>
+
+      <div class="form-info">
+        <p><strong>Дата создания:</strong> {new Date(lesson.data.createdAt || 0).toLocaleDateString('ru-RU')}</p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-submit">💾 Сохранить изменения</button>
+        <button type="button" class="btn-delete" onclick="deleteLesson()">🗑️ Удалить урок</button>
+        <a href="/admin/lessons/" class="btn-cancel">Отмена</a>
+      </div>
+    </form>
+
+    <div class="preview-section">
+      <h2>👁️ Предпросмотр</h2>
+      <div class="preview-content">
+        <h3>{lesson.data.title}</h3>
+        <p class="preview-meta">
+          <span>Инструктор: {lesson.data.instructor}</span>
+          <span>•</span>
+          <span>Уровень: {lesson.data.level}</span>
+          <span>•</span>
+          <span>Длительность: {lesson.data.duration} мин</span>
+        </p>
+        <div class="preview-excerpt">
+          {lesson.data.description}
+        </div>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<style>
+  .edit-lesson-container {
+    max-width: 1000px;
+  }
+
+  .edit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .btn-back {
+    padding: 0.75rem 1.5rem;
+    background-color: #f0f0f0;
+    color: #1a1a1a;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+  }
+
+  .btn-back:hover {
+    background-color: #e0e0e0;
+  }
+
+  .lesson-form {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.375rem;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-group input:disabled {
+    background-color: #f9f9f9;
+    color: #999;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #D4AF37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  }
+
+  .form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #999;
+    font-size: 0.875rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-info {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    color: #666;
+  }
+
+  .form-info p {
+    margin: 0.25rem 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e0e0e0;
+    flex-wrap: wrap;
+  }
+
+  .btn-submit {
+    padding: 0.75rem 1.5rem;
+    background-color: #D4AF37;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+  }
+
+  .btn-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  }
+
+  .btn-delete {
+    padding: 0.75rem 1.5rem;
+    background-color: #fef2f2;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+  }
+
+  .btn-delete:hover {
+    background-color: #fee2e2;
+    border-color: #fca5a5;
+  }
+
+  .btn-cancel {
+    padding: 0.75rem 1.5rem;
+    background-color: #f0f0f0;
+    color: #1a1a1a;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+  }
+
+  .btn-cancel:hover {
+    background-color: #e0e0e0;
+  }
+
+  .preview-section {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .preview-section h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #1a1a1a;
+  }
+
+  .preview-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+  }
+
+  .preview-meta {
+    font-size: 0.875rem;
+    color: #999;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .preview-excerpt {
+    color: #666;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .edit-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+      flex-direction: column;
+    }
+
+    .btn-submit,
+    .btn-delete,
+    .btn-cancel {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  document.getElementById('editLessonForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    const data = Object.fromEntries(formData);
+    
+    console.log('Форма отправлена:', data);
+    alert('✅ Изменения будут сохранены (функция в разработке)');
+  });
+
+  function deleteLesson() {
+    if (confirm('Вы уверены, что хотите удалить этот урок? Это действие необратимо.')) {
+      alert('🗑️ Урок будет удалён (функция в разработке)');
+    }
+  }
+</script>
