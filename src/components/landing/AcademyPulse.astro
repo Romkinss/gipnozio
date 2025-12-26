@@ -1,0 +1,29 @@
+---
+// AcademyPulse.astro - Пульс академии
+---
+
+<section class="py-20 bg-light">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12 animate-fade-in-up">
+      <h2 class="text-3xl font-bold text-dark mb-2">🔴 Academy Pulse</h2>
+      <p class="text-gray-600">Что происходит в академии прямо сейчас</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {[
+        { type: "Live", title: "Прямой эфир с Roman", time: "Сейчас" },
+        { type: "Event", title: "Вебинар: Техники индукции", time: "Завтра 18:00" },
+        { type: "Podcast", title: "Подкаст: Истории успеха", time: "Вчера" },
+      ].map((item, i) => (
+        <div key={i} class="bg-light-secondary rounded-lg p-6 border border-gray-200 hover:border-gold transition">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="inline-block w-2 h-2 bg-gold rounded-full animate-pulse"></span>
+            <span class="text-sm font-medium text-gold">{item.type}</span>
+          </div>
+          <h3 class="font-bold text-dark mb-2">{item.title}</h3>
+          <p class="text-sm text-gray-600">{item.time}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

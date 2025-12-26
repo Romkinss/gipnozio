@@ -1,0 +1,72 @@
+---
+// GlobalCareer.astro - Глобальная карьера
+---
+
+<section class="py-20 bg-dark text-light-secondary">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16 animate-fade-in-up">
+      <h2 class="text-4xl md:text-5xl font-serif font-bold mb-4">
+        Глобальная карьера в гипнотерапии
+      </h2>
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+        Работайте откуда угодно, помогайте людям со всего мира и зарабатывайте высокий доход
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div class="animate-fade-in-up" style="animation-delay: 0.1s">
+        <h3 class="text-2xl font-bold text-gold mb-6">Возможности карьеры</h3>
+        <ul class="space-y-4">
+          {[
+            "Частная практика гипнотерапевта",
+            "Онлайн консультации",
+            "Корпоративные программы",
+            "Обучение других гипнотерапевтов",
+            "Написание книг и создание контента",
+            "Создание собственного курса",
+          ].map((item) => (
+            <li key={item} class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="animate-fade-in-up" style="animation-delay: 0.2s">
+        <h3 class="text-2xl font-bold text-gold mb-6">Средний доход выпускников</h3>
+        <div class="space-y-6">
+          <div>
+            <div class="flex justify-between mb-2">
+              <span>Первый год</span>
+              <span class="text-gold font-bold">$50K - $100K</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-2">
+              <div class="bg-gold h-2 rounded-full" style="width: 40%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-2">
+              <span>Второй год</span>
+              <span class="text-gold font-bold">$100K - $200K</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-2">
+              <div class="bg-gold h-2 rounded-full" style="width: 70%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-2">
+              <span>Третий год+</span>
+              <span class="text-gold font-bold">$200K - $500K+</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-2">
+              <div class="bg-gold h-2 rounded-full" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

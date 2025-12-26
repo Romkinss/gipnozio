@@ -1,0 +1,153 @@
+---
+// Hero.astro - Главный баннер с CTA кнопками
+---
+
+<section class="relative min-h-screen bg-dark text-light-secondary overflow-hidden flex items-center">
+  <!-- Background Effects -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-gold rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-gold rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- Grid Pattern -->
+  <div class="absolute inset-0 opacity-5">
+    <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid)" />
+    </svg>
+  </div>
+
+  <!-- Content -->
+  <div class="container mx-auto px-4 relative z-10 py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Left Column -->
+      <div class="animate-fade-in-up">
+        <div class="mb-6">
+          <span class="inline-block px-4 py-2 bg-gold/10 text-gold rounded-full text-sm font-medium">
+            🎓 Eurasian Academy of Hypnosis
+          </span>
+        </div>
+
+        <h1 class="text-5xl md:text-6xl font-serif font-bold mb-6 leading-tight">
+          Трансформируй жизни через
+          <span class="text-gold"> гипнотерапию</span>
+        </h1>
+
+        <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+          Полный курс обучения гипнотерапии от основ до продвинутых техник. Научись работать с подсознанием и помогать людям достичь своих целей.
+        </p>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 gap-6 mb-8">
+          <div>
+            <div class="text-3xl font-bold text-gold mb-2">100%</div>
+            <p class="text-gray-400 text-sm">Онлайн обучение</p>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-gold mb-2">24/7</div>
+            <p class="text-gray-400 text-sm">Доступ к материалам</p>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-gold mb-2">6 месяцев</div>
+            <p class="text-gray-400 text-sm">Полный курс</p>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-gold mb-2">ROI x5</div>
+            <p class="text-gray-400 text-sm">Средний доход</p>
+          </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="/learning" class="px-8 py-4 bg-gold text-dark font-bold rounded-lg hover:bg-gold-light transition transform hover:scale-105 text-center">
+            Начать практику
+          </a>
+          <a href="#program" class="px-8 py-4 border-2 border-gold text-gold font-bold rounded-lg hover:bg-gold/10 transition text-center">
+            Узнать о карьере
+          </a>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="mt-12 flex items-center gap-6 text-sm text-gray-400">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Сертификат по окончании</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Гарантия возврата денег</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Visual -->
+      <div class="hidden lg:block animate-slide-in-right">
+        <div class="relative">
+          <!-- Floating Card -->
+          <div class="bg-dark-accent rounded-2xl p-8 border border-gold/20 shadow-2xl">
+            <div class="space-y-6">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-gold/20 rounded-full flex items-center justify-center">
+                  <span class="text-2xl">🧠</span>
+                </div>
+                <div>
+                  <h3 class="font-bold text-gold">Работа с подсознанием</h3>
+                  <p class="text-sm text-gray-400">Глубокие техники гипноза</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-gold/20 rounded-full flex items-center justify-center">
+                  <span class="text-2xl">💼</span>
+                </div>
+                <div>
+                  <h3 class="font-bold text-gold">Карьерный рост</h3>
+                  <p class="text-sm text-gray-400">Стройте успешный бизнес</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-gold/20 rounded-full flex items-center justify-center">
+                  <span class="text-2xl">🌍</span>
+                </div>
+                <div>
+                  <h3 class="font-bold text-gold">Глобальное сообщество</h3>
+                  <p class="text-sm text-gray-400">Сеть из 50+ стран</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-gold/20 rounded-full flex items-center justify-center">
+                  <span class="text-2xl">📈</span>
+                </div>
+                <div>
+                  <h3 class="font-bold text-gold">Доказанные результаты</h3>
+                  <p class="text-sm text-gray-400">95% успешных выпускников</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decorative Elements -->
+          <div class="absolute -top-4 -right-4 w-24 h-24 bg-gold/10 rounded-full blur-2xl"></div>
+          <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-gold/5 rounded-full blur-3xl"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </div>
+  </div>
+</section>

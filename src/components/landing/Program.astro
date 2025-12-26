@@ -1,0 +1,46 @@
+---
+// Program.astro - Программа обучения
+---
+
+<section class="py-20 bg-dark text-light-secondary" id="program">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16 animate-fade-in-up">
+      <h2 class="text-4xl md:text-5xl font-serif font-bold mb-4">
+        Программа обучения
+      </h2>
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+        6 месяцев интенсивного обучения с практическими навыками
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {[
+        { title: "Модуль 1: Основы", lessons: 8, duration: "4 недели" },
+        { title: "Модуль 2: Техники", lessons: 12, duration: "6 недель" },
+        { title: "Модуль 3: Практика", lessons: 10, duration: "5 недель" },
+        { title: "Модуль 4: Специализация", lessons: 6, duration: "3 недели" },
+      ].map((module, i) => (
+        <div key={i} class="bg-dark-accent rounded-xl p-8 border border-gold/20 hover:border-gold transition animate-fade-in-up" style={`animation-delay: ${i * 0.1}s`}>
+          <h3 class="text-2xl font-bold text-gold mb-4">{module.title}</h3>
+          <div class="space-y-3 mb-6">
+            <div class="flex items-center gap-2 text-gray-300">
+              <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              <span>{module.lessons} уроков</span>
+            </div>
+            <div class="flex items-center gap-2 text-gray-300">
+              <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              <span>{module.duration}</span>
+            </div>
+          </div>
+          <a href="/learning" class="text-gold hover:text-gold-light transition font-semibold">
+            Начать модуль →
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
