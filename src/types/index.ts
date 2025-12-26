@@ -1,57 +1,36 @@
+/**
+ * Main Types File
+ * Все типы данных для проекта ГИПНОЗИО
+ */
+
 // ============================================
-// ОСНОВНЫЕ ТИПЫ ДАННЫХ
+// ARTICLE / BLOG POST TYPES
 // ============================================
 
-// Статьи и контент
 export interface Article {
   id: string;
-  slug: string;
   title: string;
-  description: string;
-  excerpt?: string;
+  slug: string;
+  excerpt: string;
   content: string;
   author: string;
-  publishedAt: Date;
-  updatedAt?: Date;
-  category?: string;
-  tags?: string[];
+  category: string;
+  tags: string[];
+  metaTitle?: string;
+  metaDescription?: string;
   featuredImage?: string;
   featuredImageAlt?: string;
+  published: boolean;
+  publishedAt: string;
   readingTime?: number;
   viewsCount?: number;
-  // LMS fields
   is_lesson?: boolean;
   module_number?: number;
   lesson_order?: number;
-  access_level?: 'free' | 'premium' | 'vip';
-  attachments?: Attachment[];
-  // News fields
-  is_featured_news?: boolean;
-  event_date?: Date;
-  event_time?: string;
-  marker_type?: 'live' | 'ceremony' | 'podcast' | 'lesson' | 'meetup' | 'case' | 'insight';
-  external_url?: string;
-  seo?: SEOData;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-export interface BlogPost extends Article {
-  // Blog specific fields
-}
-
-export interface LessonContent extends Article {
-  duration: string;
-  level?: 'beginner' | 'intermediate' | 'advanced';
-  order: number;
-  module?: string;
-  objectives?: string[];
-  prerequisites?: string[];
-  resources?: Resource[];
-  videoUrl?: string;
-  videoTranscript?: string;
-  quiz?: QuizData;
-}
-
-// Категории
 export interface Category {
   id: string;
   name: string;
@@ -59,175 +38,336 @@ export interface Category {
   description?: string;
   color?: string;
   icon?: string;
-  postCount?: number;
 }
 
-// Отзывы
+// ============================================
+// TESTIMONIAL TYPES
+// ============================================
+
 export interface Testimonial {
   id: string;
   name: string;
-  content: string;
   age?: number;
   profession?: string;
-  rating: number;
-  type: 'video' | 'image' | 'text';
+  company?: string;
+  content: string;
+  type: 'text' | 'video' | 'image';
   mediaUrl?: string;
   thumbnailUrl?: string;
-  approved: boolean;
+  rating: number; // 1-5
   featured: boolean;
-  createdAt: Date;
+  approved: boolean;
+  createdAt: string;
+  updatedAt?: string;
 }
 
-// Консультации
+// ============================================
+// USER & CONSULTATION TYPES
+// ============================================
+
+export interface User {
+  id: string;
+  telegramId?: number;
+  email?: string;
+  name: string;
+  phone?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserProfile {
+  id: string;
+  userId: string;
+  avatar?: string;
+  bio?: string;
+  location?: string;
+  website?: string;
+  socialLinks?: {
+    telegram?: string;
+    instagram?: string;
+    facebook?: string;
+  };
+  preferences?: {
+    emailNotifications: boolean;
+    smsNotifications: boolean;
+    language: string;
+  };
+  updatedAt: string;
+}
+
 export interface Consultation {
   id: string;
   name: string;
   email: string;
   phone: string;
-  consultationType?: string;
   message: string;
-  source_page?: string;
-  source_url?: string;
-  status: 'new' | 'contacted' | 'completed' | 'rejected';
-  created_at: Date;
+  status: 'new' | 'read' | 'responded' | 'closed';
+  createdAt: string;
+  respondedAt?: string;
+  response?: string;
 }
 
-// Профиль пользователя
-export interface UserProfile {
-  id: string;
-  telegram_id?: string;
-  username?: string;
-  first_name: string;
-  last_name?: string;
-  avatar_url?: string;
-  email?: string;
-  phone?: string;
-  role_level: 'student' | 'instructor' | 'admin';
-  created_at: Date;
-  updated_at?: Date;
+// ============================================
+// LESSON & LEARNING TYPES
+// ============================================
+
+export interface Lesson extends Article {
+  is_lesson: true;
+  module_number: number;
+  lesson_order: number;
+  duration: number; // в минутах
+  videoUrl?: string;
+  materials?: string[];
+  instructor: string;
+  level: 'beginner' | 'intermediate' | 'advanced';
 }
 
-// Прогресс обучения
 export interface LessonProgress {
   id: string;
-  telegram_id: string;
-  lesson_id: string;
-  is_completed: boolean;
-  progress_percentage?: number;
-  notes?: string;
-  updated_at: Date;
+  telegramId: number;
+  lessonId: string;
+  isCompleted: boolean;
+  completedAt?: string;
+  updatedAt: string;
 }
 
-// Тесты
+export interface UserNote {
+  id: string;
+  telegramId: number;
+  lessonId: string;
+  content: string;
+  updatedAt: string;
+}
+
+// ============================================
+// QUIZ & SURVEY TYPES
+// ============================================
+
 export interface Quiz {
   id: string;
   title: string;
   description?: string;
-  data: QuizQuestion[];
-  created_at: Date;
-  updated_at?: Date;
+  lessonId?: string;
+  questions: QuizQuestion[];
+  passingScore: number; // процент
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface QuizQuestion {
   id: string;
   question: string;
-  type: 'multiple-choice' | 'true-false' | 'short-answer';
+  type: 'single' | 'multiple' | 'text';
   options?: string[];
-  correctAnswer: string | number;
+  correctAnswer: string | string[];
   explanation?: string;
 }
 
-// Опросы
+export interface QuizResult {
+  id: string;
+  telegramId: number;
+  quizId: string;
+  score: number;
+  answers: Record<string, string | string[]>;
+  completedAt: string;
+}
+
 export interface Survey {
   id: string;
   title: string;
   description?: string;
   statements: SurveyStatement[];
-  created_at: Date;
-  updated_at?: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface SurveyStatement {
   id: string;
   statement: string;
-  scale: number; // 1-5, 1-7, etc.
+  type: 'likert' | 'text' | 'choice';
+  options?: string[];
 }
 
-// Ресурсы
-export interface Resource {
-  title: string;
-  url: string;
-  type?: 'video' | 'pdf' | 'link' | 'exercise' | 'document';
-  description?: string;
+export interface SurveyResult {
+  id: string;
+  telegramId: number;
+  surveyId: string;
+  lessonId?: string;
+  responses: Record<string, string | number>;
+  updatedAt: string;
 }
 
-export interface Attachment {
+// ============================================
+// REQUEST TYPES
+// ============================================
+
+export interface Request {
   id: string;
   name: string;
-  url: string;
-  type: string;
-  size: number;
+  email: string;
+  phone: string;
+  message: string;
+  status: 'new' | 'read' | 'responded' | 'closed';
+  createdAt: string;
+  respondedAt?: string;
 }
 
-// SEO данные
-export interface SEOData {
-  title?: string;
-  description?: string;
-  keywords?: string[];
-  ogImage?: string;
-  ogType?: string;
-  canonical?: string;
-}
+// ============================================
+// API RESPONSE TYPES
+// ============================================
 
-// Quiz данные в статье
-export interface QuizData {
-  enabled?: boolean;
-  questions?: number;
-  passingScore?: number;
-}
-
-// Данные для страницы
-export interface PageData {
-  title: string;
-  description: string;
-  content: string;
-  seo?: SEOData;
-}
-
-// Статистика
-export interface Statistics {
-  totalStudents: number;
-  totalLessons: number;
-  totalArticles: number;
-  averageRating: number;
-  countriesCount: number;
-  successRate: number;
-}
-
-// Навигация
-export interface NavItem {
-  label: string;
-  href: string;
-  icon?: string;
-  children?: NavItem[];
-}
-
-// Ответ API
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
   message?: string;
+  code?: string;
 }
 
-// Пагинация
-export interface PaginationData {
+export interface PaginationParams {
   page: number;
-  pageSize: number;
-  total: number;
-  totalPages: number;
+  limit: number;
+  sort?: string;
+  order?: 'asc' | 'desc';
 }
 
-export interface PaginatedResponse<T> extends PaginationData {
+export interface PaginatedResult<T> {
   items: T[];
+  total: number;
+  page: number;
+  limit: number;
+  pages: number;
+}
+
+export interface SearchFilters {
+  query?: string;
+  category?: string;
+  tag?: string;
+  author?: string;
+  dateFrom?: Date;
+  dateTo?: Date;
+  level?: 'beginner' | 'intermediate' | 'advanced';
+}
+
+// ============================================
+// ADMIN TYPES
+// ============================================
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  name: string;
+  role: 'admin' | 'moderator';
+  createdAt: Date;
+  lastLogin?: Date;
+}
+
+export interface BlogPostFormData {
+  title: string;
+  slug: string;
+  description: string;
+  excerpt: string;
+  content: string;
+  author: string;
+  category: string;
+  tags: string[];
+  featuredImage?: string;
+  featuredImageAlt?: string;
+  readingTime?: number;
+  seo?: {
+    metaDescription?: string;
+    keywords?: string[];
+    ogImage?: string;
+  };
+}
+
+export interface LessonFormData {
+  title: string;
+  slug: string;
+  description: string;
+  content: string;
+  instructor: string;
+  category: string;
+  level: 'beginner' | 'intermediate' | 'advanced';
+  duration: number;
+  videoUrl?: string;
+  materials?: string[];
+  tags: string[];
+  seo?: {
+    metaDescription?: string;
+    keywords?: string[];
+  };
+}
+
+export interface TestimonialFormData {
+  name: string;
+  role: string;
+  company?: string;
+  content: string;
+  rating: number;
+  image?: string;
+  verified: boolean;
+}
+
+// ============================================
+// STATISTICS TYPES
+// ============================================
+
+export interface AdminStats {
+  totalPosts: number;
+  totalLessons: number;
+  totalTestimonials: number;
+  totalUsers: number;
+  recentPosts: number;
+  recentLessons: number;
+  recentTestimonials: number;
+  recentUsers: number;
+}
+
+export interface UserStats {
+  totalLessonsCompleted: number;
+  totalQuizzesCompleted: number;
+  averageScore: number;
+  lastActivityDate?: string;
+}
+
+// ============================================
+// UI COMPONENT TYPES
+// ============================================
+
+export interface Notification {
+  id: string;
+  type: 'success' | 'error' | 'warning' | 'info';
+  message: string;
+  duration?: number;
+}
+
+export interface ModalState {
+  isOpen: boolean;
+  title?: string;
+  message?: string;
+  type?: 'confirm' | 'alert' | 'delete';
+  onConfirm?: () => void;
+  onCancel?: () => void;
+}
+
+export interface OperationStatus {
+  loading: boolean;
+  error?: string;
+  success?: boolean;
+}
+
+// ============================================
+// SUPABASE RESPONSE TYPES
+// ============================================
+
+export interface SupabaseError {
+  message: string;
+  status?: number;
+  code?: string;
+}
+
+export interface SupabaseResponse<T> {
+  data: T | null;
+  error: SupabaseError | null;
 }

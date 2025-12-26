@@ -5,7 +5,16 @@
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 import { getCollection } from 'astro:content';
 
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { id: post.slug },
+    props: { post },
+  }));
+}
+
 const { id } = Astro.params;
+const { post } = Astro.props;
 
 // Получаем все посты
 const posts = await getCollection('blog');

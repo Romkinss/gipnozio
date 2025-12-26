@@ -28,7 +28,6 @@ export default defineConfig({
       external: ['lucide-react', '@supabase/supabase-js']
     },
     build: {
-      minify: 'terser',
       cssCodeSplit: true,
       rollupOptions: {
         output: {

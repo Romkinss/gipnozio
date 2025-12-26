@@ -5,17 +5,16 @@
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 import { getCollection } from 'astro:content';
 
-const { id } = Astro.params;
-
-// Получаем все уроки
-const lessons = await getCollection('lessons');
-const lesson = lessons.find(l => l.slug === id);
-
-if (!lesson) {
-  return Astro.redirect('/admin/lessons/');
+export async function getStaticPaths() {
+  const lessons = await getCollection('lessons');
+  return lessons.map(lesson => ({
+    params: { id: lesson.slug },
+    props: { lesson },
+  }));
 }
 
-const { Content } = await lesson.render();
+const { id } = Astro.params;
+const { lesson } = Astro.props;
 ---
 
 <AdminLayout title={`Редактировать: ${lesson.data.title}`}>

@@ -38,7 +38,7 @@ const lessonsCollection = defineCollection({
     resources: z.array(z.object({
       title: z.string(),
       url: z.string(),
-      type: z.enum(['video', 'pdf', 'link', 'exercise']).optional(),
+      type: z.enum(['video', 'pdf', 'link', 'exercise', 'audio']).optional(),
     })).optional(),
     videoUrl: z.string().optional(),
     videoTranscript: z.string().optional(),
