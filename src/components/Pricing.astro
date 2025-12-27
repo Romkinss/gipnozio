@@ -1,0 +1,108 @@
+---
+// Pricing.astro - Переделан под React дизайн
+import { Check } from 'lucide-react';
+
+const PRICING_PLANS = [
+  {
+    name: 'Базовый',
+    price: '299',
+    description: 'Для начинающих',
+    features: [
+      'Доступ к основным урокам',
+      'Сообщество студентов',
+      'Базовая поддержка',
+      'Сертификат по завершении'
+    ],
+    cta: 'Начать обучение',
+    highlighted: false
+  },
+  {
+    name: 'Профессиональный',
+    price: '599',
+    description: 'Самый популярный',
+    features: [
+      'Все из Базового',
+      'Личный куратор',
+      'Еженедельные разборы',
+      'Закрытый чат поддержки',
+      'Доступ к скриптам и протоколам',
+      'Международный сертификат'
+    ],
+    cta: 'Выбрать план',
+    highlighted: true
+  },
+  {
+    name: 'Премиум',
+    price: '999',
+    description: 'Для профессионалов',
+    features: [
+      'Все из Профессионального',
+      'Индивидуальные консультации',
+      'Приоритетная поддержка',
+      'Доступ к продвинутым техникам',
+      'Бизнес-коучинг',
+      'Пожизненный доступ'
+    ],
+    cta: 'Стать премиум членом',
+    highlighted: false
+  }
+];
+---
+
+<section id="pricing" class="py-20 md:py-32 bg-light-secondary">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <p class="text-gold text-sm md:text-base font-bold uppercase tracking-widest mb-4">Инвестиция в себя</p>
+      <h2 class="text-4xl md:text-5xl font-serif font-bold text-dark mb-6">Выберите свой план</h2>
+      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Гибкие планы обучения для каждого уровня подготовки</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      {PRICING_PLANS.map((plan) => (
+        <div class={`relative rounded-2xl overflow-hidden transition-all duration-300 ${
+          plan.highlighted 
+            ? 'md:scale-105 shadow-gold/30 shadow-2xl border-2 border-gold bg-white' 
+            : 'border border-gray-200 bg-white shadow-sm hover:shadow-lg'
+        }`}>
+          {plan.highlighted && (
+            <div class="absolute top-0 left-0 right-0 bg-gradient-to-r from-gold to-gold-light text-dark py-2 text-center font-bold text-sm uppercase tracking-widest">
+              Самый популярный
+            </div>
+          )}
+          
+          <div class={`p-8 ${plan.highlighted ? 'pt-16' : ''}`}>
+            <h3 class="text-2xl font-bold text-dark mb-2">{plan.name}</h3>
+            <p class="text-gray-600 text-sm mb-6">{plan.description}</p>
+            
+            <div class="mb-8">
+              <span class="text-5xl font-bold text-dark">${plan.price}</span>
+              <span class="text-gray-600 ml-2">/месяц</span>
+            </div>
+
+            <button class={`w-full py-3 px-6 rounded-lg font-bold uppercase tracking-widest transition-all duration-300 mb-8 ${
+              plan.highlighted
+                ? 'bg-gold text-dark hover:bg-gold-light'
+                : 'border-2 border-gold text-gold hover:bg-gold hover:text-dark'
+            }`}>
+              {plan.cta}
+            </button>
+
+            <div class="space-y-4">
+              {plan.features.map((feature) => (
+                <div class="flex items-start gap-3">
+                  <Check class="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
+                  <span class="text-gray-700">{feature}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center mt-16">
+      <p class="text-gray-600 mb-4">Все планы включают 30-дневную гарантию возврата денег</p>
+      <p class="text-sm text-gray-500">Нет скрытых платежей. Отмена в любой момент.</p>
+    </div>
+  </div>
+</section>

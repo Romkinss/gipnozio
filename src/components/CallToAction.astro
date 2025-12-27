@@ -1,0 +1,55 @@
+---
+// CallToAction.astro - Переделан под React дизайн
+---
+
+<section id="cta" class="py-20 md:py-32 bg-dark text-white relative overflow-hidden">
+  {/* Background effects */}
+  <div class="absolute top-0 left-0 w-96 h-96 bg-gold/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight">
+        Готов начать <span class="text-gold">новую карьеру</span>?
+      </h2>
+      
+      <p class="text-xl text-gray-300 mb-12 leading-relaxed">
+        Присоединяйся к 250+ студентам, которые уже трансформируют свою жизнь через гипнотерапию. 
+        Начни свой путь к финансовой независимости и помощи людям.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-6 justify-center mb-12">
+        <button class="px-12 py-5 bg-gold text-dark font-bold rounded-xl hover:bg-gold-light transition-all shadow-[0_10px_30px_rgba(212,175,55,0.3)] uppercase tracking-widest text-sm md:text-base transform hover:-translate-y-1 active:scale-95">
+          Начать бесплатный пробный период
+        </button>
+        <button class="px-12 py-5 border-2 border-gold text-gold font-bold rounded-xl hover:bg-gold hover:text-dark transition-all uppercase tracking-widest text-sm md:text-base">
+          Узнать больше
+        </button>
+      </div>
+
+      <p class="text-gray-400 text-sm">
+        ✓ Без кредитной карты • ✓ Доступ на 7 дней • ✓ Отмена в любой момент
+      </p>
+    </div>
+
+    {/* Stats */}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-20 border-t border-gold/20">
+      <div class="text-center">
+        <div class="text-4xl font-bold text-gold mb-2">250+</div>
+        <div class="text-gray-400 text-sm uppercase tracking-widest">Активных студентов</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl font-bold text-gold mb-2">4.9★</div>
+        <div class="text-gray-400 text-sm uppercase tracking-widest">Средняя оценка</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl font-bold text-gold mb-2">6 мес</div>
+        <div class="text-gray-400 text-sm uppercase tracking-widest">До первых денег</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl font-bold text-gold mb-2">x5</div>
+        <div class="text-gray-400 text-sm uppercase tracking-widest">ROI в год</div>
+      </div>
+    </div>
+  </div>
+</section>

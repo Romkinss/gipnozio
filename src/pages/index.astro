@@ -4,6 +4,8 @@ import PublicLayout from '../layouts/PublicLayout.astro';
 import SEO from '../components/common/SEO.astro';
 import Hero from '../components/Hero.astro';
 import Features from '../components/Features.astro';
+import Pricing from '../components/Pricing.astro';
+import CallToAction from '../components/CallToAction.astro';
 
 const seoData = {
   title: 'GIPNOZIO Academy - Обучение гипнотерапии онлайн',
@@ -40,11 +42,6 @@ const schema = {
 
   <Hero />
   <Features />
-  
-  <!-- Placeholder для остальных секций -->
-  <section class="py-20 bg-light-secondary text-center">
-    <div class="container mx-auto px-4">
-      <p class="text-gray-600">Остальные секции будут добавлены...</p>
-    </div>
-  </section>
+  <Pricing />
+  <CallToAction />
 </PublicLayout>
