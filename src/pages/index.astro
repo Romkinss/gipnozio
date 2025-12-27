@@ -1,11 +1,22 @@
 ---
-// index.astro - Главная страница (Landing Page)
+// index.astro - Полная главная страница со всеми 16 секциями
 import PublicLayout from '../layouts/PublicLayout.astro';
 import SEO from '../components/common/SEO.astro';
 import Hero from '../components/Hero.astro';
-import Features from '../components/Features.astro';
+import Resonance from '../components/Resonance.astro';
+import Problem from '../components/Problem.astro';
+import Solution from '../components/Solution.astro';
+import DigitalManifesto from '../components/DigitalManifesto.astro';
+import GlobalCareer from '../components/GlobalCareer.astro';
+import Stats from '../components/Stats.astro';
+import ForWhom from '../components/ForWhom.astro';
+import Program from '../components/Program.astro';
 import Pricing from '../components/Pricing.astro';
+import Scarcity from '../components/Scarcity.astro';
+import Guarantee from '../components/Guarantee.astro';
 import CallToAction from '../components/CallToAction.astro';
+import Warning from '../components/Warning.astro';
+import Footer from '../components/Footer.astro';
 
 const seoData = {
   title: 'GIPNOZIO Academy - Обучение гипнотерапии онлайн',
@@ -40,8 +51,48 @@ const schema = {
     schema={schema}
   />
 
+  {/* Секция 1: Hero */}
   <Hero />
-  <Features />
+
+  {/* Секция 2: Resonance */}
+  <Resonance />
+
+  {/* Секция 3: Problem */}
+  <Problem />
+
+  {/* Секция 4: Solution */}
+  <Solution />
+
+  {/* Секция 5: Digital Manifesto */}
+  <DigitalManifesto />
+
+  {/* Секция 6: Global Career */}
+  <GlobalCareer />
+
+  {/* Секция 7: Stats */}
+  <Stats />
+
+  {/* Секция 8: For Whom */}
+  <ForWhom />
+
+  {/* Секция 9: Program */}
+  <Program />
+
+  {/* Секция 10: Pricing */}
   <Pricing />
+
+  {/* Секция 11: Scarcity */}
+  <Scarcity />
+
+  {/* Секция 12: Guarantee */}
+  <Guarantee />
+
+  {/* Секция 13: Call To Action */}
   <CallToAction />
+
+  {/* Секция 14: Warning */}
+  <Warning />
+
+  {/* Секция 15: Footer */}
+  <Footer />
 </PublicLayout>

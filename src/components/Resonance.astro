@@ -1,0 +1,62 @@
+---
+// Resonance.astro - Секция с 3 карточками (Кризис, Потолок, Зов)
+import { Zap, Heart, Search } from 'lucide-react';
+
+const RESONANCE_ITEMS = [
+  {
+    icon: Zap,
+    title: 'Кризис Достигатора',
+    subtitle: 'бизнес и топ-менеджмент',
+    description: 'Внешний успех есть, а внутренней тишины нет'
+  },
+  {
+    icon: Heart,
+    title: 'Потолок Мастера',
+    subtitle: 'психологи, коучи и эксперты',
+    description: 'Выгорание: клиенты не помогают, но не на'
+  },
+  {
+    icon: Search,
+    title: 'Зов Подсознания',
+    subtitle: 'смена вектора и поиск смыслов',
+    description: 'Половина жизни прожита, но не на нужном пути'
+  }
+];
+---
+
+<section class="py-20 md:py-32 bg-dark text-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <p class="text-gold text-sm md:text-base font-bold uppercase tracking-widest mb-4">✨ ДЛЯ ЗРЕЛЫХ ЛИЧНОСТЕЙ</p>
+      <h2 class="text-4xl md:text-5xl font-serif font-bold mb-6">
+        Программа для тех, кто <br/>
+        <span class="text-gold italic">уже состоялся</span>
+      </h2>
+      <p class="text-gray-400 text-lg max-w-3xl mx-auto">
+        Средний возраст наших студентов – 38 лет. Здесь не учат молодежь «профессиями», здесь мастера обретают глубину, а лидеры – внутреннюю тишину.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      {RESONANCE_ITEMS.map((item) => {
+        const Icon = item.icon;
+        return (
+          <div class="group p-8 rounded-2xl bg-dark-accent border border-gold/20 hover:border-gold/50 transition-all duration-300 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gold/5 rounded-bl-full -mr-4 -mt-4 group-hover:scale-150 transition-transform duration-500"></div>
+            
+            <div class="relative z-10">
+              <div class="w-12 h-12 bg-gold/20 rounded-lg flex items-center justify-center mb-6 group-hover:bg-gold/30 transition-colors">
+                <Icon class="w-6 h-6 text-gold" />
+              </div>
+              <h3 class="text-xl font-bold text-white mb-2">{item.title}</h3>
+              <p class="text-gold text-sm font-light uppercase tracking-widest mb-4">{item.subtitle}</p>
+              <p class="text-gray-400 text-sm leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
