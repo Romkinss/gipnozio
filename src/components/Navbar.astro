@@ -1,0 +1,29 @@
+---
+import NavbarMenu from './NavbarMenu';
+---
+
+<header class="bg-dark-accent text-white py-6 border-b-2 border-gold relative z-50">
+  <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center gap-6">
+    <a href="/" class="w-24 h-24 bg-dark-accent rounded-lg shadow-[0_0_15px_rgba(212,175,55,0.3)] overflow-hidden flex items-center justify-center border border-gold/30">
+      <img 
+        src="https://api.gipnozio.ru/storage/v1/object/public/public-images/1766569860658_logo-gipnozio.webp" 
+        alt="Eurasian Academy Logo" 
+        class="w-full h-full object-cover"
+      />
+    </a>
+    <div class="text-center md:text-left">
+      <a href="/" class="text-2xl md:text-3xl font-serif font-bold tracking-wider text-white hover:text-gold transition-colors">
+        Eurasian Academy of Hypnosis
+      </a>
+      <div class="flex flex-col md:flex-row items-center gap-3 mt-2">
+        <p class="text-gold text-sm md:text-base font-light tracking-wide uppercase">Профессиональное ОНЛАЙН обучение</p>
+        <div class="hidden md:flex items-center justify-center gap-2 bg-white/5 px-3 py-1 rounded-full border border-white/10 min-w-[185px]">
+          <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+          <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block whitespace-nowrap">Сейчас: набор 5 потока</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<NavbarMenu client:load />
