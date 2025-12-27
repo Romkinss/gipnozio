@@ -1,0 +1,67 @@
+---
+// Features.astro - Переделан под React дизайн
+import { Globe, Zap, Users, Award, BookOpen, Shield } from 'lucide-react';
+
+const FEATURES = [
+  {
+    icon: Globe,
+    title: 'Международные стандарты',
+    description: 'Программа соответствует стандартам National Guild of Hypnotists (США). Диплом признается во всем мире.'
+  },
+  {
+    icon: Zap,
+    title: 'Практика с 1-го занятия',
+    description: 'Мы не учим сухой теории. Вы начнете погружать в транс и проводить индукции уже на первой неделе.'
+  },
+  {
+    icon: Users,
+    title: 'Супервизия и поддержка',
+    description: 'Личный куратор, закрытый чат для отработки техник и еженедельные разборы сессий с Романом.'
+  },
+  {
+    icon: Award,
+    title: 'Официальный диплом',
+    description: 'Выдаем диплом установленного образца с занесением в ФИС ФРДО (для РФ) и международный сертификат.'
+  },
+  {
+    icon: BookOpen,
+    title: 'База знаний навсегда',
+    description: 'Доступ к урокам, скриптам, протоколам и обновлениям курса сохраняется у вас бессрочно.'
+  },
+  {
+    icon: Shield,
+    title: 'Безопасные методы',
+    description: 'Экологичные техники, которые не могут навредить клиенту. Полное понимание физиологии мозга.'
+  }
+];
+---
+
+<section id="features" class="py-20 md:py-32 bg-light-secondary">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <p class="text-gold text-sm md:text-base font-bold uppercase tracking-widest mb-4">Почему выбирают нас</p>
+      <h2 class="text-4xl md:text-5xl font-serif font-bold text-dark mb-6">Преимущества обучения</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {FEATURES.map((feature) => {
+        const Icon = feature.icon;
+        return (
+          <div class="group p-8 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-gold/20 hover:border-gold/30 transition-all duration-300 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-gold/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-150 duration-500"></div>
+            
+            <div class="relative z-10">
+              <div class="w-14 h-14 bg-dark rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-gold/10 group-hover:scale-110 transition-transform duration-300">
+                <Icon class="w-8 h-8 text-gold" />
+              </div>
+              <h3 class="text-xl font-bold text-dark mb-3 group-hover:text-gold-dark transition-colors">{feature.title}</h3>
+              <p class="text-gray-600 leading-relaxed text-sm">
+                {feature.description}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

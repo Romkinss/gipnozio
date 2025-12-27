@@ -2,25 +2,12 @@
 // index.astro - Главная страница (Landing Page)
 import PublicLayout from '../layouts/PublicLayout.astro';
 import SEO from '../components/common/SEO.astro';
-import Hero from '../components/landing/Hero.astro';
-import AcademyPulse from '../components/landing/AcademyPulse.astro';
-import Resonance from '../components/landing/Resonance.astro';
-import Problem from '../components/landing/Problem.astro';
-import Solution from '../components/landing/Solution.astro';
-import DigitalManifesto from '../components/landing/DigitalManifesto.astro';
-import GlobalCareer from '../components/landing/GlobalCareer.astro';
-import Stats from '../components/landing/Stats.astro';
-import ForWhom from '../components/landing/ForWhom.astro';
-import Testimonials from '../components/landing/Testimonials.astro';
-import Program from '../components/landing/Program.astro';
-import Scarcity from '../components/landing/Scarcity.astro';
-import Guarantee from '../components/landing/Guarantee.astro';
-import CallToAction from '../components/landing/CallToAction.astro';
-import Warning from '../components/landing/Warning.astro';
+import Hero from '../components/Hero.astro';
+import Features from '../components/Features.astro';
 
 const seoData = {
   title: 'GIPNOZIO Academy - Обучение гипнотерапии онлайн',
-  description: 'Полный курс обучения гипнотерапии от основ до продвинутых техник. Научись помогать людям и строить успешный бизнес.',
+  description: 'Полный курс обучения гипнотерапии от основ до продвинутых техник. Научитесь помогать людям и строить успешный бизнес.',
   keywords: ['гипнотерапия', 'обучение', 'гипноз', 'курс', 'онлайн'],
   ogImage: '/og-image.jpg',
 };
@@ -52,18 +39,12 @@ const schema = {
   />
 
   <Hero />
-  <AcademyPulse />
-  <Resonance />
-  <Problem />
-  <Solution />
-  <DigitalManifesto />
-  <GlobalCareer />
-  <Stats />
-  <ForWhom />
-  <Testimonials />
-  <Program />
-  <Scarcity />
-  <Guarantee />
-  <CallToAction />
-  <Warning />
+  <Features />
+  
+  <!-- Placeholder для остальных секций -->
+  <section class="py-20 bg-light-secondary text-center">
+    <div class="container mx-auto px-4">
+      <p class="text-gray-600">Остальные секции будут добавлены...</p>
+    </div>
+  </section>
 </PublicLayout>
