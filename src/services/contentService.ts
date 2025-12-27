@@ -252,3 +252,35 @@ export async function searchPosts(query: string): Promise<Article[]> {
     return [];
   }
 }
+
+/**
+ * Отправить запрос на консультацию
+ */
+export async function submitConsultation(data: {
+  name: string;
+  phone: string;
+  source_page: string;
+  source_url: string;
+}): Promise<void> {
+  try {
+    // TODO: Implement API call to backend
+    console.log('Consultation request:', data);
+  } catch (error) {
+    console.error('Error submitting consultation:', error);
+    throw error;
+  }
+}
+
+// Export as object for compatibility
+export const contentService = {
+  getAllBlogPosts,
+  getBlogPostBySlug,
+  getBlogPostsByCategory,
+  getBlogPostsByTag,
+  getAllCategories,
+  getAllTags,
+  getRelatedPosts,
+  getPaginatedPosts,
+  searchPosts,
+  submitConsultation,
+};

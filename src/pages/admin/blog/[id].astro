@@ -18,13 +18,13 @@ const { post } = Astro.props;
 
 // Получаем все посты
 const posts = await getCollection('blog');
-const post = posts.find(p => p.slug === id);
+const postData = posts.find(p => p.slug === id);
 
-if (!post) {
+if (!postData) {
   return Astro.redirect('/admin/blog/');
 }
 
-const { Content } = await post.render();
+const { Content } = await postData.render();
 ---
 
 <AdminLayout title={`Редактировать: ${post.data.title}`}>

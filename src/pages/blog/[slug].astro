@@ -32,8 +32,7 @@ const currentIndex = sortedPosts.findIndex(p => p.slug === post.slug);
 const previousPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
 const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
 
-// Подготавливаем HTML контента
-const contentHtml = await Content.render();
+
 ---
 
 <!DOCTYPE html>
@@ -114,18 +113,16 @@ const contentHtml = await Content.render();
             { label: post.data.title, href: `/blog/${post.slug}` }
         ]} />
         
-        <BlogPostView 
-            client:load
-            title={post.data.title}
-            author={post.data.author}
-            publishedAt={post.data.publishedAt}
-            category={post.data.category}
-            tags={post.data.tags}
-            readingTime={post.data.readingTime}
-            content={contentHtml.html}
-            previousPost={previousPost ? { slug: previousPost.slug, title: previousPost.data.title } : undefined}
-            nextPost={nextPost ? { slug: nextPost.slug, title: nextPost.data.title } : undefined}
-        />
+        <div class="prose max-w-4xl mx-auto">
+            <h1>{post.data.title}</h1>
+            <div class="text-gray-600 mb-6">
+                <span>Автор: {post.data.author}</span>
+                <span> • </span>
+                <span>{new Date(post.data.publishedAt).toLocaleDateString('ru-RU')}</span>
+                {post.data.readingTime && <span> • {post.data.readingTime} мин чтения</span>}
+            </div>
+            <Content />
+        </div>
     </main>
 
     <!-- Footer -->

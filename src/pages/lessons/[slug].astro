@@ -30,8 +30,7 @@ const currentIndex = sortedLessons.findIndex(l => l.slug === lesson.slug);
 const previousLesson = currentIndex > 0 ? sortedLessons[currentIndex - 1] : null;
 const nextLesson = currentIndex < sortedLessons.length - 1 ? sortedLessons[currentIndex + 1] : null;
 
-// Подготавливаем HTML контента
-const contentHtml = await Content.render();
+
 ---
 
 <!DOCTYPE html>
@@ -97,21 +96,16 @@ const contentHtml = await Content.render();
             { label: lesson.data.title, href: `/lessons/${lesson.slug}` }
         ]} />
         
-        <LessonView 
-            client:load
-            title={lesson.data.title}
-            description={lesson.data.description}
-            duration={lesson.data.duration}
-            level={lesson.data.level}
-            module={lesson.data.module}
-            objectives={lesson.data.objectives}
-            content={contentHtml.html}
-            videoUrl={lesson.data.videoUrl}
-            resources={lesson.data.resources}
-            previousLesson={previousLesson ? { slug: previousLesson.slug, title: previousLesson.data.title } : undefined}
-            nextLesson={nextLesson ? { slug: nextLesson.slug, title: nextLesson.data.title } : undefined}
-            progress={Math.round((currentIndex / sortedLessons.length) * 100)}
-        />
+        <div class="prose max-w-4xl mx-auto">
+            <h1>{lesson.data.title}</h1>
+            <div class="text-gray-600 mb-6">
+                <span>Модуль: {lesson.data.module}</span>
+                <span> • </span>
+                <span>Уровень: {lesson.data.level}</span>
+                {lesson.data.duration && <span> • {lesson.data.duration}</span>}
+            </div>
+            <Content />
+        </div>
     </main>
 
     <!-- Footer -->
