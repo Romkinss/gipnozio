@@ -1,33 +1,23 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/Hero.astro';
+import Problem from '../components/Problem.astro';
+import Solution from '../components/Solution.astro';
+import Program from '../components/Program.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Stats from '../components/Stats.astro';
+import CallToAction from '../components/CallToAction.astro';
 ---
 
-<MainLayout title="ГИПНОЗИО - Главная" description="Eurasian Academy of Hypnosis - Professional training in hypnotherapy and coaching">
-  <main class="min-h-screen flex items-center justify-center bg-gradient-to-b from-light-secondary to-light">
-    <div class="text-center px-4">
-      <h1 class="text-5xl md:text-6xl font-serif font-bold text-dark mb-4">
-        Welcome to <span class="text-gold">ГИПНОЗИО</span>
-      </h1>
-      <p class="text-xl md:text-2xl text-gray-600 mb-8">
-        Eurasian Academy of Hypnosis
-      </p>
-      <p class="text-lg text-gray-500 mb-12">
-        Migration from React to Astro in progress...
-      </p>
-      <div class="flex gap-4 justify-center flex-wrap">
-        <a href="/blog" class="px-8 py-3 bg-gold text-white font-bold rounded-lg hover:bg-gold-dark transition-colors">
-          Блог
-        </a>
-        <a href="/testimonials" class="px-8 py-3 border-2 border-gold text-gold font-bold rounded-lg hover:bg-gold hover:text-white transition-colors">
-          Отзывы
-        </a>
-      </div>
-    </div>
-  </main>
+<MainLayout 
+  title="ГИПНОЗИО - Станьте онлайн гипнотерапевтом" 
+  description="Фундаментальное обучение искусству работы с подсознанием через Zoom и Skype. Помогайте людям из любой точки мира."
+>
+  <Hero />
+  <Problem />
+  <Solution />
+  <Program />
+  <Stats />
+  <Testimonials />
+  <CallToAction />
 </MainLayout>
-
-<style>
-  main {
-    min-height: calc(100vh - 200px);
-  }
-</style>

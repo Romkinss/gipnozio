@@ -1,0 +1,37 @@
+---
+import { AlertCircle } from 'lucide-react';
+
+const problems = [
+  "Чувствуете, что упёрлись в финансовый и профессиональный потолок?",
+  "Клиенты не получают устойчивых результатов и возвращаются с теми же проблемами?",
+  "Ваши текущие инструменты требуют слишком много времени для изменений?",
+  "Испытываете выгорание от того, что работаете больше, чем зарабатываете?"
+];
+---
+
+<section id="problem" class="bg-light py-16 md:py-24 px-4">
+  <div class="container mx-auto max-w-4xl">
+    <!-- Section Title -->
+    <div class="text-center mb-12 md:mb-16">
+      <span class="block text-gold font-bold tracking-[0.2em] uppercase text-lg md:text-xl mb-4">
+        Знакомо ли вам это состояние?
+      </span>
+      <h2 class="text-3xl md:text-4xl font-serif font-bold text-dark relative inline-block pb-6 mb-4">
+        Почему вы здесь?
+        <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-gold to-gold-light rounded-full"></span>
+      </h2>
+    </div>
+
+    <!-- Problems Grid -->
+    <div class="grid md:grid-cols-2 gap-8">
+      {problems.map((item) => (
+        <div class="flex items-start gap-4 p-6 bg-white rounded-xl shadow-sm border border-red-50 hover:border-red-100 transition-colors">
+          <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0">
+            <AlertCircle class="text-red-400 w-5 h-5" />
+          </div>
+          <p class="text-dark-accent font-medium">{item}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
